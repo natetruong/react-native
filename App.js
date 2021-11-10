@@ -1,21 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Main from './components/MainComponent';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+        <Main />
+    );
 }
+// import React from 'react';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// import Main from './components/MainComponent';
+
+// export default function App() {
+//   return (
+//       <Main />
+//   );
+// }
+//<View> component will be mapped to android or ios as TextView even though we are writing it in react native component
+
+//StyleSheet is import from react-native and it is not a component. it is part of the general API application platform interface.
+//StyleSheet is found under API in react native docs.  not under docs. 
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#0ff',
+    
+//   },
+// });
