@@ -13,6 +13,12 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 ///
 
+//navigation part 2//
+//we just installed drawer navigator.
+import Home from './HomeComponent';// we just created a Home Component in HomeComponent.js
+import { createDrawerNavigator } from 'react-navigation-drawer';//we need to import this after we installed it.
+//navigation part 2//
+
 //Just like in react we are setting up a class component called Main. 
 //we need constructor because we need to set up state property to hold the CAMPSITES data.  we need to have constructor(props) and super(props)
 //in order to have state.
@@ -121,13 +127,64 @@ const DirectoryNavigator = createStackNavigator(
 //this is handle back and forth button
 //we should always wrap top level navigators(Directory and CampsiteInfor above) like this.
 
-const AppNavigator = createAppContainer(DirectoryNavigator);//simple wrapping syntax let CreateAppContainer connecting top level navigator
+
+//THIS DirectoryNavigator HAS BEEN SWAPPED OUT WITH MainNavigator IN NAVIGATION PART2.  WE WILL SET HOME SCREEN AS THE TOP 
+//LEVEL APPNAVIGATOR.//
+
+// const AppNavigator = createAppContainer(DirectoryNavigator);//simple wrapping syntax let CreateAppContainer connecting top level navigator
 // we can render AppNavigator in Main Component because it has both Directory and CampsiteInfo components.
 
 //paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
 //remember this is padding for different operating system.  we are using ternary operator.  
 // if platform.OS === 'ios'? is true then the padding top will be 0 but if it is false the then we wil use dynamic bar height with this value paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight from expo
 //we installed expo with the command expo install expo-constants earlier so we can use this statusBarHeignt constant.
+
+//navigation part2 drawer navigator//
+//this Home stack Navigator is similar to Director Navigator. (Home component inported from HomeComonent.js)
+//this Navigator only have one screen.  Directory Navigator have to screens Directory and CampsiteInfo.
+//we dont have initial route configure because we only have one screen unlike Directory navigator.
+const HomeNavigator = createStackNavigator(
+    {
+        Home: { screen: Home }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+);
+
+//Drawer Navigator.  it look similar to stack navigator syntax.
+//createDrawerNavigator takes two arguments.  first are the screen for the drawer and second is the background.
+//({Home:...,Directory:..},{drawerBackgroundColor:...})
+//we can call MainNavigator or whatever you like.//
+
+// so in this drawer Navigator we have two screens.  Home and Directory.
+// when we click on Home it will take us to home and home screen will only have one screen.
+//when we click on Directory navigator it will take us to Directory Navigtor and we have two screen to choose there.
+//wer are routing them through stack navigtor not home or directoryh themselve. therefore screen:HomeNavigator instead of
+//screen:Home.
+const MainNavigator = createDrawerNavigator(
+    {
+        Home: { screen: HomeNavigator },
+        Directory: { screen: DirectoryNavigator }
+    },
+    {
+        drawerBackgroundColor: '#CEC8FF'
+    }
+);
+
+const AppNavigator = createAppContainer(MainNavigator)
+
+
+//navigation part2 drawer navigator//
+
 class Main extends Component {
     render() {
         return (
