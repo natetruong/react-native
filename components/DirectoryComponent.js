@@ -106,13 +106,13 @@ class Directory extends Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
+        const { navigate } = this.props.navigation; //navigation props has various fxns that dispatch navigation action on route's router.  we destructured it to navigate here instead of {props.navigate}
         const renderDirectoryItem = ({item}) => {
             return (
                 <ListItem
                     title={item.name}
                     subtitle={item.description}
-                    onPress={() => navigate('CampsiteInfo', { campsiteId: item.id })}
+                    onPress={() => navigate('CampsiteInfo', { campsiteId: item.id })}// 'CampsiteInfo' is how we connected to Main page. we defined campsiteId here and set it to item.id.  we can call it whatever we want. 
                     leftAvatar={{ source: require('./images/react-lake.jpg')}}
                 />
             );
@@ -131,3 +131,5 @@ class Directory extends Component {
 export default Directory;
 
 //Navigation part 1 and 2//
+
+//i need to re-read the onPress to understand it more.//

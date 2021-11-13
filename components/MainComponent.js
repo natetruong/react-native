@@ -19,6 +19,10 @@ import Home from './HomeComponent';// we just created a Home Component in HomeCo
 import { createDrawerNavigator } from 'react-navigation-drawer';//we need to import this after we installed it.
 //navigation part 2//
 
+//workshop week1//
+import About from './AboutComponent';
+import Contact from './ContactComponent';
+//workshop week1//
 //Just like in react we are setting up a class component called Main. 
 //we need constructor because we need to set up state property to hold the CAMPSITES data.  we need to have constructor(props) and super(props)
 //in order to have state.
@@ -160,6 +164,40 @@ const HomeNavigator = createStackNavigator(
     }
 );
 
+const ContactNavigator = createStackNavigator(
+    {
+        Contact: { screen: Contact }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+);
+
+const AboutNavigator = createStackNavigator(
+    {
+        About: { screen: About }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+);
+
 //Drawer Navigator.  it look similar to stack navigator syntax.
 //createDrawerNavigator takes two arguments.  first are the screen for the drawer and second is the background.
 //({Home:...,Directory:..},{drawerBackgroundColor:...})
@@ -170,10 +208,16 @@ const HomeNavigator = createStackNavigator(
 //when we click on Directory navigator it will take us to Directory Navigtor and we have two screen to choose there.
 //wer are routing them through stack navigtor not home or directoryh themselve. therefore screen:HomeNavigator instead of
 //screen:Home.
+//
+//Contact: { screen: ContactNavigator } we can name it contact or whatever we like here but ContactNavigator have to mwatch with what we created earlier
+//
+
 const MainNavigator = createDrawerNavigator(
     {
         Home: { screen: HomeNavigator },
-        Directory: { screen: DirectoryNavigator }
+        Directory: { screen: DirectoryNavigator },
+        About: { screen: AboutNavigator },
+        Contact: { screen: ContactNavigator }
     },
     {
         drawerBackgroundColor: '#CEC8FF'
