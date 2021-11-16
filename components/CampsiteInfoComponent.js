@@ -6,6 +6,21 @@ import { Component } from 'react';
 import { CAMPSITES } from '../shared/campsites';
 
 
+//week 2 icons, favorites, and comments//
+import { ScrollView, FlatList } from 'react-native';// we need ScrollView to wrap two returned fxns.  and flatlist to hold an array
+//need to add this to local state.
+import { COMMENTS } from '../shared/comments';
+
+import { Icon } from 'react-native-elements'; //for favorite icon
+
+
+
+
+
+
+
+
+//week 2 icon...//
 //SECOND//
 // from the props campsite object we are only interested in campsite object so we are pulling it out and destructured it
 // as a parameter of RenderCampsite
@@ -15,21 +30,58 @@ import { CAMPSITES } from '../shared/campsites';
 //image is also a prop of Card component.  we set image prop to the require fxn
 
 //margin: 10 is an object so we need double curly braces inside jsx.
-function RenderCampsite({campsite}) {
+function RenderCampsite(props) {
+
+    const {campsite} = props;//we don not destructure campsite anymore because we need props to get favorite icon.
+
     if (campsite) {
         return (
             <Card 
                 featuredTitle={campsite.name}
-                image={require('./images/react-lake.jpg')}
-            >
+                image={require('./images/react-lake.jpg')}>
                 <Text style={{margin: 10}}>
                     {campsite.description}
                 </Text>
+                <Icon
+                    name={props.favorite ? 'heart' : 'heart-o'}
+                    type='font-awesome'
+                    color='#f50'
+                    raised
+                    reverse
+                    onPress={() => props.favorite ? 
+                        console.log('Already set as a favorite') : props.markFavorite()}
+                />
             </Card>
         );
     }
     return <View />;
 }
+
+
+function RenderComments({comments}) {
+
+    const renderCommentItem = ({item}) => {
+        return (
+            <View style={{margin: 10}}>
+                <Text style={{fontSize: 14}}>{item.text}</Text>
+                <Text style={{fontSize: 12}}>{item.rating} Stars</Text>
+                <Text style={{fontSize: 12}}>{`-- ${item.author}, ${item.date}`}</Text>
+            </View>
+        );
+    };
+
+    return (
+        <Card title='Comments'>
+            <FlatList
+                data={comments}
+                renderItem={renderCommentItem}
+                keyExtractor={item => item.id.toString()}
+            />
+        </Card>
+    );
+}
+
+
 // FIRST //the purpose of this CampsiteInfo component is to return a card with an impage and description.
 //we created CampsiteInfo as a presentatonal component.  we passed props to RenderCampsite fxn component so that
 //can iterate through the array of object.
@@ -64,8 +116,14 @@ class CampsiteInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            campsites: CAMPSITES
+            campsites: CAMPSITES,
+            comments: COMMENTS,
+            favorite: false
         };
+    }
+
+    markFavorite() {
+        this.setState({favorite: true});
     }
 
     static navigationOptions = {
@@ -75,7 +133,23 @@ class CampsiteInfo extends Component {
     render() {
         const campsiteId = this.props.navigation.getParam('campsiteId');//we took campsiteId from Directory Component.
         const campsite = this.state.campsites.filter(campsite => campsite.id === campsiteId)[0];
-        return <RenderCampsite campsite={campsite} />;
+        const comments = this.state.comments.filter(comment => comment.campsiteId === campsiteId);//week 2 added for comments
+        //we are passing in const comments and const campsite to the two fxn below in ScrollView.
+        //WHAT WE ARE DOING HERE IS DISPLAYING COMMENTS THAT MATCHES CAMPSITE DISPLAYING.
+        //we can get the id of the comment and filter for a match with the displayed campsite.  in our case the the current display campsite is 
+        // the object campsiteId aka const campsiteId line 115 above.
+        // why dont we add the index of 0 just to get the first item in the return filtered array like in campsite.
+        //because we want all comments for the campsite not just one comments.
+        //look at two RenderCampsite and RenderComments for details.  they are different because one display one campsite and other display all comments
+        return (
+            <ScrollView>
+                <RenderCampsite campsite={campsite}
+                    favorite={this.state.favorite}
+                    markFavorite={() => this.markFavorite()}
+                />
+                <RenderComments comments={comments} />
+            </ScrollView>
+        );
     }
 }
 

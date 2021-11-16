@@ -7,7 +7,10 @@ import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 //read from top to bottom so put this on top so about component can use it
-function Mission(item) {
+//can we remove the parameter for this Mission fxn since we dont need it.  it will return the same card no matter what argument is enter?
+//no props is passed into Mission fxn from About Component.
+//it works without parameter 'item' or any parameter really.  the fxn return the same data no matter what when call upon.
+function Mission() {
     
         return (
             <Card title="Our Mission">
