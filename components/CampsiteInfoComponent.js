@@ -30,6 +30,9 @@ import { Icon } from 'react-native-elements'; //for favorite icon
 //image is also a prop of Card component.  we set image prop to the require fxn
 
 //margin: 10 is an object so we need double curly braces inside jsx.
+
+//why did we code icon here but not the class componenet itself or anywhere else.  
+//this is a place to code the icon because this is where it is rendering campsite.  we want the favorite icon to appear at each campsite.
 function RenderCampsite(props) {
 
     const {campsite} = props;//we don not destructure campsite anymore because we need props to get favorite icon.
@@ -57,7 +60,14 @@ function RenderCampsite(props) {
     return <View />;
 }
 
+//why do we have to destructure it?  why cant we just enter comments?  well comments is being pass as props from const comments of CampsiteInfo class component
+//we can pass it in as props.comments not comment directly.  but we can destructure it to get the array of comments only.  
+//comments prop will be used in FlatList data because FlatList is made to handle data in a form of array.
 
+//we want to render the comments in a Card component so that all of it appear in a card.  therefore we are using Card component.
+//we do not need render keyword since it is a functional component not class component.
+//again comments is an array which FlatList is perfect for.
+// all of the view component will be in Flatlist which will be in the Card component.
 function RenderComments({comments}) {
 
     const renderCommentItem = ({item}) => {
@@ -74,8 +84,8 @@ function RenderComments({comments}) {
         <Card title='Comments'>
             <FlatList
                 data={comments}
-                renderItem={renderCommentItem}
-                keyExtractor={item => item.id.toString()}
+                renderItem={renderCommentItem}//this will connect data to renderCommentItem so that we can pass in built in props of FlatList item which is from data.
+                keyExtractor={item => item.id.toString()}//we need a unique key to keep track of the array.  we are going to us the id in the array.  why item?  it is built in prop from data={comments}
             />
         </Card>
     );
@@ -133,7 +143,7 @@ class CampsiteInfo extends Component {
     render() {
         const campsiteId = this.props.navigation.getParam('campsiteId');//we took campsiteId from Directory Component.
         const campsite = this.state.campsites.filter(campsite => campsite.id === campsiteId)[0];
-        const comments = this.state.comments.filter(comment => comment.campsiteId === campsiteId);//week 2 added for comments
+        const comments = this.state.comments.filter(comment => comment.campsiteId === campsiteId);//week 2 added for comments.  campsiteId is the const campsiteId
         //we are passing in const comments and const campsite to the two fxn below in ScrollView.
         //WHAT WE ARE DOING HERE IS DISPLAYING COMMENTS THAT MATCHES CAMPSITE DISPLAYING.
         //we can get the id of the comment and filter for a match with the displayed campsite.  in our case the the current display campsite is 
